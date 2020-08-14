@@ -83,7 +83,7 @@ export default class CatSearch extends Component {
                 </nav>
                 <div className="flex md:flex-row-reverse flex-wrap">
                     {this.state.results.map((cat) => (
-                        <CatImage cat={cat} />
+                        <CatImage cat={cat} key={cat.id} />
                     ))}
                 </div>
             </Fragment>
