@@ -1,17 +1,31 @@
-import React from "react";
+import React, { Component } from "react";
 
-export default function BreedFilter({ breeds }) {
-    const options = breeds.map((breed) => {
-        return <option key={breed}>{breed}</option>;
-    });
-    return (
-        <span className="flex-1">
-            <label htmlFor="breeds">
-                Select Breed:
-                <select className="w-full" name="breeds" id="breeds">
+export default class BreedFilter extends Component {
+    setBreedEvent = (e) => {
+        this.props.setBreed(e.target.value);
+    };
+    render() {
+        const { breeds, currentBreed } = this.props;
+        const options = breeds.map((breed) => {
+            return (
+                <option key={breed} value={breed}>
+                    {breed}
+                </option>
+            );
+        });
+        return (
+            <span className="flex-1">
+                <select
+                    className="w-full"
+                    name="breeds"
+                    id="breeds"
+                    value={currentBreed}
+                    onChange={this.setBreedEvent}
+                >
+                    <option value="">Select Breed</option>
                     {options}
                 </select>
-            </label>
-        </span>
-    );
+            </span>
+        );
+    }
 }
