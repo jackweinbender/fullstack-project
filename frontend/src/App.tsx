@@ -1,9 +1,9 @@
 import React from "react";
-import logo from "./logo.svg";
+import CatSearch from "./components/CatSearch";
 import "./App.css";
 
 function App() {
-    return <div></div>;
+    return <CatSearch></CatSearch>;
 }
 
 export default App;
