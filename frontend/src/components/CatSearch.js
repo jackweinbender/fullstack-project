@@ -4,13 +4,14 @@ import BreedFilter from "./BreedFilter";
 import CategoryFilter from "./CategoryFilter";
 import CatImage from "./CatImage";
 
-import { cats } from "./data";
-
 export default class CatSearch extends Component {
     state = {
         categories: [],
         breeds: [],
-        baseUrl: "/api/cats",
+        currentBreed: "",
+        currentCategory: "",
+        url: "",
+        results: [],
     };
     componentDidMount() {
         axios({
@@ -28,30 +29,60 @@ export default class CatSearch extends Component {
         }).then(({ data }) => {
             this.setState({ categories: data });
         });
+        axios({
+            method: "get",
+            url: "/api/cats",
+            responseType: "json",
+        }).then(({ data }) => {
+            this.setState({ results: data });
+        });
     }
 
-    setBreed(breed) {
+    setBreed = (breed) => {
         this.setState({ currentBreed: breed });
-    }
-
-    setCategory(category) {
-        this.setState({ currentCategory: category });
-    }
-
-    updateUrl = () => {
-        const base = "/api/cats";
     };
 
+    setCategory = (category) => {
+        this.setState({ currentCategory: category });
+    };
+    updateCats = () => {
+        const { currentBreed, currentCategory } = this.state;
+        const params = {};
+
+        if (currentBreed) {
+            params.breed = currentBreed;
+        }
+        if (currentCategory) {
+            params.category = currentCategory;
+        }
+        console.log({ params, currentBreed, currentCategory });
+        axios({
+            method: "get",
+            url: "/api/cats",
+            responseType: "json",
+            params: params,
+        }).then(({ data }) => {
+            this.setState({ results: data });
+        });
+    };
     render() {
         return (
             <Fragment>
-                <p>URL: {this.state.url}</p>
-                <div className="flex">
-                    <BreedFilter breeds={this.state.breeds} />
-                    <CategoryFilter categories={this.state.categories} />
-                </div>
-                <div>
-                    {cats.map((cat) => (
+                <nav className="flex">
+                    <BreedFilter
+                        breeds={this.state.breeds}
+                        currentBreed={this.state.currentBreed}
+                        setBreed={this.setBreed}
+                    />
+                    <CategoryFilter
+                        categories={this.state.categories}
+                        currentCategory={this.state.currentCategory}
+                        setCategory={this.setCategory}
+                    />
+                    <button onClick={this.updateCats}>Fetch Kitty</button>
+                </nav>
+                <div className="flex md:flex-row-reverse flex-wrap">
+                    {this.state.results.map((cat) => (
                         <CatImage cat={cat} />
                     ))}
                 </div>
