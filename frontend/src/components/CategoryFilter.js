@@ -8,8 +8,8 @@ export default class CategoryFilter extends Component {
         const { categories, currentCategory } = this.props;
         const options = categories.map((category) => {
             return (
-                <option key={category} value={category}>
-                    {category}
+                <option key={category.id} value={category.id}>
+                    {category.name}
                 </option>
             );
         });

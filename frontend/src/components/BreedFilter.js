@@ -8,8 +8,8 @@ export default class BreedFilter extends Component {
         const { breeds, currentBreed } = this.props;
         const options = breeds.map((breed) => {
             return (
-                <option key={breed} value={breed}>
-                    {breed}
+                <option key={breed.id} value={breed.id}>
+                    {breed.name}
                 </option>
             );
         });
