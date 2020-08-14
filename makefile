@@ -1,9 +1,8 @@
-default:
-	docker-compose up
+default: up
 
 up:
 	docker-compose up
-	
+
 down:
 	docker-compose down
 
@@ -17,11 +16,11 @@ build:
 	docker-compose build  --no-cache
 
 bundle:
-	docker-compose run rails bundle install
-	docker-compose run rails yarn install
+	docker-compose run --rm rails bundle install
+	docker-compose run --rm rails yarn install
 
 db_init:
-	docker-compose run rails bundle exec rake db:create
+	docker-compose run --rm rails bundle exec rake db:create
 
 yarn:
-	docker-compose run react yarn install
+	docker-compose run --rm react yarn install
