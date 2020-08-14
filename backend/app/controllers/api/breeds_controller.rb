@@ -1,5 +1,11 @@
 class Api::BreedsController < ApplicationController
     def index 
-        render json: ["Breed 1", "Breed 2", "Breed 3", "Breed 4", "Breed 5", ]
+        url = URI.parse('https://api.thecatapi.com/v1/breeds')
+
+        breeds = JSON.parse(url.read).map{ |breed|
+            { id: breed["id"], name: breed["name"] }
+        }
+
+        render json: breeds
     end
 end

@@ -1,5 +1,6 @@
 class Api::CategoriesController < ApplicationController
     def index 
-        render json: ["Category 1", "Category 2", "Category 3", "Category 4", "Category 5", ]
+        url = URI.parse('https://api.thecatapi.com/v1/categories')
+        render json: url.read
     end
 end
