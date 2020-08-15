@@ -81,7 +81,7 @@ export default class CatSearch extends Component {
                     />
                     <button onClick={this.updateCats}>Fetch Kitty</button>
                 </nav>
-                <div className="flex md:flex-row-reverse flex-wrap">
+                <div className="flex md:flex-row flex-wrap">
                     {this.state.results.map((cat) => (
                         <CatImage cat={cat} key={cat.id} />
                     ))}
