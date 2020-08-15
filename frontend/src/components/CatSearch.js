@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
-import BreedFilter from "./BreedFilter";
-import CategoryFilter from "./CategoryFilter";
 import SearchResults from "./SearchResults";
+import CatNav from "./CatNav";
 
 export default class CatSearch extends Component {
     state = {
@@ -101,27 +100,33 @@ export default class CatSearch extends Component {
         });
     };
     render() {
+        const { results, favorites } = this.state;
         return (
             <Fragment>
                 <h1 className="p-4 text-lg text-center text-white bg-blue-700 text-bold">
-                    The Cat Filter
+                    🐈{" "}
+                    <span
+                        style={{
+                            fontFamily: [
+                                "Comic Sans MS",
+                                "cursive",
+                                "sans-serif",
+                            ],
+                        }}
+                    >
+                        The Cat Filter
+                    </span>{" "}
+                    🐱
                 </h1>
-                <nav className="flex">
-                    <BreedFilter
-                        breeds={this.state.breeds}
-                        currentBreed={this.state.currentBreed}
-                        setBreed={this.setBreed}
-                    />
-                    <CategoryFilter
-                        categories={this.state.categories}
-                        currentCategory={this.state.currentCategory}
-                        setCategory={this.setCategory}
-                    />
-                    <button onClick={this.updateCats}>Fetch Kitty</button>
-                </nav>
+                <CatNav
+                    setBreed={this.setBreed}
+                    setCategory={this.setCategory}
+                    updateCats={this.updateCats}
+                    {...this.state}
+                />
                 <SearchResults
-                    results={this.state.results}
-                    favorites={this.state.favorites}
+                    results={results}
+                    favorites={favorites}
                     toggleFavorite={this.toggleFavorite}
                 />
             </Fragment>
