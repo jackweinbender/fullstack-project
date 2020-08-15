@@ -1,9 +1,9 @@
 import React from "react";
 
-export default function FavButton({ fav, toggleFav }) {
+export default function FavButton({ fav, clickFav }) {
     const handleClick = (e) => {
         e.preventDefault();
-        toggleFav(fav);
+        clickFav();
     };
 
     const isFavorite = (

@@ -2,12 +2,9 @@ import React, { Component } from "react";
 import FavButton from "./FavButton";
 
 export default class CatImage extends Component {
-    state = {
-        fav: false,
-    };
-    toggleFav = () => {
-        console.log(this.state.fav);
-        this.setState({ fav: !this.state.fav });
+    clickFav = () => {
+        console.log(this.props.fav);
+        this.props.toggleFavorite(this.props.cat.id);
     };
     render() {
         const { cat } = this.props;
@@ -18,7 +15,7 @@ export default class CatImage extends Component {
                     src={cat.url}
                     alt={cat.id}
                 />
-                <FavButton fav={this.state.fav} toggleFav={this.toggleFav} />
+                <FavButton fav={this.props.fav} clickFav={this.clickFav} />
             </div>
         );
     }
