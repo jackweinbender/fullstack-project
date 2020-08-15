@@ -14,9 +14,9 @@ export default class BreedFilter extends Component {
             );
         });
         return (
-            <span className="flex-1">
+            <span className="flex-1 pr-1">
                 <select
-                    className="w-full"
+                    className="w-full rounded border border-gray-400 mx-2 px-2 py-1"
                     name="breeds"
                     id="breeds"
                     value={currentBreed}

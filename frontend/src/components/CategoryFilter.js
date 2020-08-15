@@ -14,9 +14,9 @@ export default class CategoryFilter extends Component {
             );
         });
         return (
-            <span className="flex-1">
+            <span className="flex-1 flex- px-1">
                 <select
-                    className="w-full"
+                    className="w-full rounded border border-gray-400 mx-2 px-2 py-1"
                     name="categories"
                     id="categories"
                     value={currentCategory}
