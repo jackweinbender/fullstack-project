@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import axios from "axios";
 import BreedFilter from "./BreedFilter";
 import CategoryFilter from "./CategoryFilter";
-import CatImage from "./CatImage";
+import SearchResults from "./SearchResults";
 
 export default class CatSearch extends Component {
     state = {
@@ -12,6 +12,7 @@ export default class CatSearch extends Component {
         currentCategory: "",
         url: "",
         results: [],
+        favorites: [],
     };
     componentDidMount() {
         axios({
@@ -36,8 +37,42 @@ export default class CatSearch extends Component {
         }).then(({ data }) => {
             this.setState({ results: data });
         });
+        axios({
+            method: "get",
+            url: "/api/favorites",
+            responseType: "json",
+        }).then(({ data }) => {
+            this.setState({ favorites: data });
+        });
     }
-
+    toggleFavorite = (id) => {
+        if (this.state.favorites.includes(id)) {
+            console.log("UNFave!");
+            this.unfavorite(id);
+        } else {
+            console.log("Fave!");
+            this.favorite(id);
+        }
+    };
+    favorite = (id) => {
+        axios({
+            method: "post",
+            url: "/api/favorites",
+            responseType: "json",
+            params: { id: id },
+        }).then(({ data }) => {
+            this.setState({ favorites: data });
+        });
+    };
+    unfavorite = (id) => {
+        axios({
+            method: "delete",
+            url: `/api/favorites/${id}`,
+            responseType: "json",
+        }).then(({ data }) => {
+            this.setState({ favorites: data });
+        });
+    };
     setBreed = (breed) => {
         this.setState({ currentBreed: breed });
     };
@@ -68,6 +103,9 @@ export default class CatSearch extends Component {
     render() {
         return (
             <Fragment>
+                <h1 className="p-4 text-lg text-center text-white bg-blue-700 text-bold">
+                    The Cat Filter
+                </h1>
                 <nav className="flex">
                     <BreedFilter
                         breeds={this.state.breeds}
@@ -81,11 +119,11 @@ export default class CatSearch extends Component {
                     />
                     <button onClick={this.updateCats}>Fetch Kitty</button>
                 </nav>
-                <div className="flex md:flex-row flex-wrap">
-                    {this.state.results.map((cat) => (
-                        <CatImage cat={cat} key={cat.id} />
-                    ))}
-                </div>
+                <SearchResults
+                    results={this.state.results}
+                    favorites={this.state.favorites}
+                    toggleFavorite={this.toggleFavorite}
+                />
             </Fragment>
         );
     }
